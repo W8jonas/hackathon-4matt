@@ -1,17 +1,16 @@
-const Room = require('./app/modules/room');
+const RoomController = require('./app/modules/roomController');
 
-const rooms = [];
+const controller = new RoomController();
 
-rooms.push(new Room(1, 30, 20))
-rooms.push(new Room(2, 25, 20, 15))
-rooms.push(new Room(3, 30, 25, 35))
-rooms.push(new Room(4, 15, 10))
+controller.includeRoom(30, 20, 25, 1)
+// controller.includeRoom(25, 20, 25, 10)
+// controller.includeRoom(20, 15, 25, 10)
+// controller.includeRoom(15, 10, 25, 10)
+// controller.includeRoom(20, 15, 25, 90)
 
-function updateState(){
-  console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-  rooms.forEach(room => {
-    console.log(room.toString());
-  });
+function printRooms() {
+  console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+  controller.printAllRooms();
 }
 
-setInterval(updateState, 2000);
+setInterval(printRooms, 2000);
