@@ -14,3 +14,38 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+
+
+
+.baseNode {
+  width: 120px;
+  height: 10px;
+
+  padding: 40px;
+
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+.master {
+  width: 120px;
+  height: 10px;
+
+  background-color: aliceblue;
+}
+.building {
+  background-color: #f3f3fa;
+}
+.floor {
+  background-color: #e9f1eb;
+  width: 110px;
+}
+.room {
+  background-color: #e8f5ff;
+  width: 200px;
+  height: auto;
+}
+
+.fire {
+  background-color: #f19891;
+}
