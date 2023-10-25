@@ -4,10 +4,9 @@ import {Handle, Position} from 'reactflow'
 export function Master(props) {
 
     return (
-
         <div className="baseNode master">
-            <Handle id="left" type="target" position={Position.Left} />
-            {props.data.label} {props.selected ? 'as' : 'dd'}
+            <Handle type="source" position={Position.Bottom} />
+            {props.data.label}
         </div>
     )
 }
