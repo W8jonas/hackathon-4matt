@@ -40,7 +40,10 @@ class Room {
       this.heating_system = true
       this.cooling_system = false
 
-      this.status = INCREASE
+      if(actual < minimum - tolerance)
+        this.status = OUT_CONTROL
+      else 
+        this.status = INCREASE
     }else if(actual > maximum) {
       this.heating_system = false
       this.cooling_system = true
