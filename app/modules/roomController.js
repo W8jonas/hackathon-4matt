@@ -5,8 +5,8 @@ class Controller {
     this.rooms = []
   }  
 
-  includeRoom(maximum_temperature, minimum_temperature, temperature, fail_rate){
-    const room = new Room(this.rooms.length, maximum_temperature, minimum_temperature, temperature, fail_rate)
+  includeRoom(maximum_temperature, minimum_temperature, temperature, fail_rate, name){
+    const room = new Room(this.rooms.length, maximum_temperature, minimum_temperature, temperature, fail_rate, name)
 
     room.turnOn();
 

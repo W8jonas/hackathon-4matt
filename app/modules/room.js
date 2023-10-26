@@ -3,8 +3,17 @@ const DECREASE = 'need to decrease temperature'
 const UNDER_CONTROL = 'temperature under control'
 const OUT_CONTROL = 'temperature OUT OF CONTROL!!!!!!'
 
+const uuid = require('uuid')
+
 class Room {
-  constructor(number = 1, maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10){
+  constructor(number = 1, maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10, name, location){
+
+    if(!name) name = 'Room '+number;
+
+    this.name = name;
+    this.location = location;
+
+    this.uuid = uuid.v4()
 
     this.maximum_temperature = maximum_temperature
     this.minimum_temperature = minimum_temperature
@@ -23,7 +32,6 @@ class Room {
     this.fail_state = false
 
     this.tolerance = (maximum_temperature + minimum_temperature) / 10
-    console.log('\n','----------->this.tolerance: ', (this.tolerance))
   }
 
   updateStatus(){
@@ -84,6 +92,7 @@ class Room {
     this.updateStatus()
 
     return {
+      uuid: this.uuid,
       status: this.status,
       fail_state: this.fail_state,
       system_operating: this.system_operating,
@@ -101,7 +110,7 @@ class Room {
     const data = this.checkStatus();
 
     const failed = this.fail_state ? 'with error' : 'normally'
-    const room = `Room ${this.number} ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
+    const room = `${this.name} - ${this.uuid.split('-')[0]} : ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
     const status = `Temperature: ${this.temperature.toFixed(1)}, ${this.status};`
     const cooling = `cooling: ${this.cooling_system ? 'on' : 'off'}`
     const heating = `heating: ${this.heating_system ? 'on' : 'off'}`
