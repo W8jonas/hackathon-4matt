@@ -46,6 +46,14 @@ code {
   height: auto;
 }
 
-.fire {
-  background-color: #f19891;
+.priority_0 {
+  background-color: #ff0000;
+}
+
+.priority_1 {
+  background-color: #fa8078;
+}
+
+.priority_2 {
+  background-color: #f88049;
 }
