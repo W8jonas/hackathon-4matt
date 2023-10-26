@@ -27,6 +27,11 @@ code {
   background-color: #f1f1f1;
   border-radius: 6px;
 }
+.baseNode p {
+  font-size: 16px;
+  line-height: 140%;
+}
+
 .master {
   width: 120px;
   height: 10px;
@@ -42,18 +47,18 @@ code {
 }
 .room {
   background-color: #e8f5ff;
-  width: 200px;
+  width: 320px;
   height: auto;
 }
 
 .priority_0 {
-  background-color: #ff0000;
+  background-color: #fd9992;
 }
 
 .priority_1 {
-  background-color: #fa8078;
+  background-color: #fc9768;
 }
 
 .priority_2 {
-  background-color: #f88049;
+  background-color: #ffe398;
 }

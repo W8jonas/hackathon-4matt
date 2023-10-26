@@ -1,0 +1,23 @@
+
+
+.roomNode {
+    width: 120px;
+    height: 10px;
+
+    padding: 10px 10px 40px 10px;
+
+    background-color: #f1f1f1;
+    border-radius: 6px;
+}
+.roomNode h3 {
+    padding-top: 10px;
+}
+.roomNode hr {
+    margin-bottom: 10px;
+}
+.roomNode p {
+    font-size: 16px;
+    line-height: 150%;
+}
+
+

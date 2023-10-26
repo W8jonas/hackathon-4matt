@@ -1,32 +1,28 @@
 
 import {Handle, Position} from 'reactflow'
 
+import './room.css'
+
 export function Room(props) {
 
     const statusAndPriorities = {
-        '0': 'priority_0',
-        '1': 'priority_1',
-        '2': 'priority_2'
+        'temperature OUT OF CONTROL!!!!!!': 'priority_0',
+        'temperature under control       ': 'priority_1',
+        'need to decrease temperature    ': 'priority_3',
+        'need to increase temperature    ': 'priority_3'
     }
 
-    // id: this.id,
-    // status: this.status,
-    // fail_state: this.fail_state,
-    // system_operating: this.system_operating,
-    // temperature: this.temperature,
-    // cooling: this.cooling_system,
-    // heating: this.heating_system,
-
-    const classStyle = "baseNode room" + (props.data.status === 'Incêndio' ? ' priority_2' : ' ')
+    const classStyle = "roomNode room " + (statusAndPriorities[props.data.status])
 
     return (
         <div className={classStyle}>
             <Handle type="target" position={Position.Left} />
-            Sala: {props.data.label} <br/>
-            Status: {props.data.status} <br/>
-            Temperatura: {props.data.temperature.toFixed(2)} <br/>
-            Resfriamento: {props.data.cooling ? 'Ligado' : 'Desligado'} <br/>
-            Aquecimento: {props.data.heating ? 'Ligado' : 'Desligado'} <br/>
+            <h3 className="title"> Sala: {props.data.label} </h3>
+            <hr />
+            <p> Status: {props.data.status} </p>
+            <p> Temperatura: {props.data.temperature.toFixed(2)} </p>
+            <p> Resfriamento: {props.data.cooling ? 'Ligado' : 'Desligado'} </p>
+            <p> Aquecimento: {props.data.heating ? 'Ligado' : 'Desligado'} </p>
         </div>
     )
 }
