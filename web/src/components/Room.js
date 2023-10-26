@@ -25,8 +25,8 @@ export function Room(props) {
             Sala: {props.data.label} <br/>
             Status: {props.data.status} <br/>
             Temperatura: {props.data.temperature.toFixed(2)} <br/>
-            Resfriamento: {props.data.cooling_system ? 'Ligado' : 'Desligado'} <br/>
-            Aquecimento: {props.data.heating_system ? 'Ligado' : 'Desligado'} <br/>
+            Resfriamento: {props.data.cooling ? 'Ligado' : 'Desligado'} <br/>
+            Aquecimento: {props.data.heating ? 'Ligado' : 'Desligado'} <br/>
         </div>
     )
 }

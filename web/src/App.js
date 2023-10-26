@@ -19,6 +19,7 @@ import { Floor } from './components/Floor';
 import { Room } from './components/Room';
 import { Data } from './Controllers/Data';
 import { getLayoutedElements } from './utils/treeLayout';
+import { setRelationshipDB } from './database';
 
 
 
@@ -29,16 +30,30 @@ const NODE_TYPES = {
 	Room: Room,
 }
 
+function getPosition(array, thisId) {
+	const dd = array.find(item => item.id === thisId)
+	return dd?.position ? {...dd.position } : {}
+}
 
 function mergeData(oldData, newData) {
 	const mergeSet = {}
 
 	oldData.forEach(data => mergeSet[data.id] = { ...data })
-	newData.forEach(data => mergeSet[data.id] = { ...data })
+	newData.forEach(data => {
+		
+		mergeSet[data.id] = { 
+			...data, 
+			position: {
+				x: getPosition(newData, data.id).x || getPosition(oldData, data.id).x || 0,
+				y: getPosition(newData, data.id).y || getPosition(oldData, data.id).y || 0,
+			}
+		}
+	})
 
 	return Object.values(mergeSet)
 }
 
+// setRelationshipDB()
 
 export default function App() {
 	const { fitView } = useReactFlow();
@@ -91,14 +106,15 @@ export default function App() {
 		)
 	}, [])
 
+
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
 			<ReactFlow
 				nodeTypes={NODE_TYPES}
 				nodes={nodes}
-				onNodesChange={onNodesChange}
+				// onNodesChange={onNodesChange}
 				edges={edges}
-				onEdgesChange={onEdgesChange}
+				// onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
 
 				panOnScroll
