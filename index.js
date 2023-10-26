@@ -37,6 +37,7 @@ function fixFailures() {
 
   idList.forEach(id => {
     controller.fixFailureById(id);
+    controller.turnOnById(id);
   })
 
   return {total: idList.length, failures: idList}
