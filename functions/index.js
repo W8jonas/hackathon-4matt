@@ -14,8 +14,8 @@ exports.resetRooms = onRequest({
     cors: ['*']
 }, async (request, response) => {
     try {
-        const data = await readDocuments('rooms')
-        await deleteDocuments('rooms', data.map(doc => doc.id))
+        const data = await readDocuments('services')
+        await deleteDocuments('services', data.map(doc => doc.id))
 
         response.status(200).json("Operação concluida!");
     } catch (error) {
@@ -31,7 +31,7 @@ exports.updateRoom = onRequest({
 	    const {id: roomId} = request.query;
         const data = request.body
         
-        const resp = await updateDocument('rooms', roomId, data)
+        const resp = await updateDocument('services', roomId, data)
 
         response.status(200).json(resp)
     } catch (error) {
