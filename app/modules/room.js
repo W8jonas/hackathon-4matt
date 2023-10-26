@@ -96,6 +96,7 @@ class Room {
   toggleOperation() { this.system_operating = !this.system_operating; }
   turnOn(){ this.system_operating = true; }
   turnOff(){ this.system_operating = false; }
+  fixOperation() { this.fail_state = false; }
 
   toString() {
     const data = this.checkStatus();

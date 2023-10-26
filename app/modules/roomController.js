@@ -41,6 +41,33 @@ class Controller {
     return room;
   }
 
+  listAllRoomsWithFailures(){
+    const failureIds = [];
+
+    this.rooms.forEach(room => {
+      failureIds.push(room.getKey('id'))
+    })
+
+    return failureIds
+  }
+
+  fixFailureById(id) {
+    for(let i = 0; i < this.rooms.length; i++){
+      if(this.rooms[i].getKey('id') == id){
+        this.rooms[i].fixOperation()
+        break
+      }
+    }
+
+  }
+
+  fixAllFailures(){
+    console.log('\n','----------->this.rooms: ', (this.rooms))
+    this.rooms.forEach(room => {
+      if(room.verifyFailutes()) room.fixOperation()
+    })
+  }
+
 }
 
 module.exports = Controller
