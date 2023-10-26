@@ -1,13 +1,13 @@
 const Buildings = [
 	{
-		id: 'Building-1',
+		id: 'building-1',
 		position: { x: -400, y: 120 },
 		data: { label: 'Prédio ICE' },
 		type: 'Building',
         draggable: true,
 	},
 	{
-		id: 'Building-2',
+		id: 'building-2',
 		position: { x: 400, y: 120 },
 		data: { label: 'Prédio Computação' },
 		type: 'Building',
@@ -17,49 +17,49 @@ const Buildings = [
 
 const floors = [
 	{
-		id: 'Floor-1',
+		id: 'floor-1',
 		position: { x: -600, y: 240 },
 		data: { label: 'Primeiro andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-2',
+		id: 'floor-2',
 		position: { x: -400, y: 240 },
 		data: { label: 'Segundo andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-3',
+		id: 'floor-3',
 		position: { x: -200, y: 240 },
 		data: { label: 'Terceiro andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-4-',
+		id: 'floor-4-',
 		position: { x: -200, y: 240 },
 		data: { label: 'Quarto andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-4',
+		id: 'floor-4',
 		position: { x: 200, y: 240 },
 		data: { label: 'Primeiro andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-5',
+		id: 'floor-5',
 		position: { x: 400, y: 240 },
 		data: { label: 'Segundo andar' },
 		type: 'Floor',
         draggable: true,
 	},
 	{
-		id: 'Floor-6',
+		id: 'floor-6',
 		position: { x: 600, y: 240 },
 		data: { label: 'Terceiro andar' },
 		type: 'Floor',
@@ -68,7 +68,6 @@ const floors = [
 ]
 
 const rooms = [
-	
 	{
 		id: 'room-1',
 		position: { x: -600, y: 400 },
@@ -113,20 +112,20 @@ const allNodes = [
 ];
 
 const initialEdges = [
-	{ source: 'master-1', target: 'Building-1' },
-	{ source: 'master-1', target: 'Building-2' },
+	{ source: 'master-1', target: 'building-1' },
+	{ source: 'master-1', target: 'building-2' },
 	
-	{ source: 'Building-1', target: 'Floor-1' },
-	{ source: 'Building-1', target: 'Floor-2' },
-	{ source: 'Building-1', target: 'Floor-3' },
+	{ source: 'building-1', target: 'floor-1' },
+	{ source: 'building-1', target: 'floor-2' },
+	{ source: 'building-1', target: 'floor-3' },
 		
-	{ source: 'Building-2', target: 'Floor-4' },
-	{ source: 'Building-2', target: 'Floor-5' },
-	{ source: 'Building-2', target: 'Floor-6' },
+	{ source: 'building-2', target: 'floor-4' },
+	{ source: 'building-2', target: 'floor-5' },
+	{ source: 'building-2', target: 'floor-6' },
 	
 
-	{ source: 'Floor-1', target: 'room-1' },
-	{ source: 'Floor-1', target: 'room-2' },
-	{ source: 'Floor-1', target: 'room-3' },
-	{ source: 'Floor-1', target: 'room-4' },
+	{ source: 'floor-1', target: 'room-1' },
+	{ source: 'floor-1', target: 'room-2' },
+	{ source: 'floor-1', target: 'room-3' },
+	{ source: 'floor-1', target: 'room-4' },
 ];
