@@ -3,6 +3,10 @@ const RoomController = require('./app/modules/roomController')
 const controller = new RoomController()
 
 const express = require('express')
+const axios = require('axios')
+
+axios.post('https://us-central1-hackathon-4matt.cloudfunctions.net/resetRooms')
+
 const app = express()
 
 controller.includeRoom(20, 10, 15, 50, 'ufjf:pdc:first--floor:101')

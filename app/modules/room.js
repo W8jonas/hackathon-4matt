@@ -3,6 +3,8 @@ const DECREASE =      'need to decrease temperature    '
 const UNDER_CONTROL = 'temperature under control       '
 const OUT_CONTROL =   'temperature OUT OF CONTROL!!!!!!'
 
+const axios = require('axios')
+
 class Room {
   constructor(maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10, location){
     this.id = location
@@ -23,6 +25,8 @@ class Room {
     this.fail_state = false
 
     this.tolerance = (maximum_temperature + minimum_temperature) / 10
+
+    this.updateOnDatabase();
   }
 
   updateStatus(){
@@ -81,6 +85,7 @@ class Room {
   checkStatus() {
     this.nextStep()
     this.updateStatus()
+    this.updateOnDatabase()
 
     return {
       id: this.id,
@@ -116,6 +121,18 @@ class Room {
     return this[key]
   }
 
+  updateOnDatabase(){
+    const url = 'https://us-central1-hackathon-4matt.cloudfunctions.net/updateRoom?id='+this.id
+
+    axios.post(url, {
+      status: this.status,
+      fail_state: this.fail_state,
+      system_operating: this.system_operating,
+      temperature: this.temperature,
+      cooling: this.cooling_system,
+      heating: this.heating_system,
+    })
+  }
 
 }
 
