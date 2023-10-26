@@ -112,9 +112,9 @@ export default function App() {
 			<ReactFlow
 				nodeTypes={NODE_TYPES}
 				nodes={nodes}
-				// onNodesChange={onNodesChange}
+				onNodesChange={onNodesChange}
 				edges={edges}
-				// onEdgesChange={onEdgesChange}
+				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
 
 				panOnScroll
@@ -127,7 +127,6 @@ export default function App() {
 			>
 				<Background />
 				<Controls />
-				<MiniMap />
 				<Panel position="top-right">
 					<button onClick={onLayout}>layout</button>
 				</Panel>
