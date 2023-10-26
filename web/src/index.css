@@ -19,9 +19,7 @@ code {
 
 
 .baseNode {
-  width: 120px;
-  height: 10px;
-
+  width: 180px;
   padding: 40px;
 
   background-color: #f1f1f1;
@@ -33,9 +31,6 @@ code {
 }
 
 .master {
-  width: 120px;
-  height: 10px;
-
   background-color: aliceblue;
 }
 .building {
@@ -43,7 +38,7 @@ code {
 }
 .floor {
   background-color: #e9f1eb;
-  width: 110px;
+  
 }
 .room {
   background-color: #e8f5ff;
