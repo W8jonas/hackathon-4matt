@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import ReactFlow, {
 	Background,
@@ -17,15 +17,7 @@ import { Floor } from './components/Floor';
 import { Room } from './components/Room';
 
 
-const initialNodes = [
-	{
-		id: 'master-1',
-		position: { x: 0, y: 0 },
-		data: { label: 'UFJF Central' },
-		type: 'Master',
-        draggable: true,
-	},
-
+const Buildings = [
 	{
 		id: 'Building-1',
 		position: { x: -400, y: 120 },
@@ -40,7 +32,9 @@ const initialNodes = [
 		type: 'Building',
         draggable: true,
 	},
+]
 
+const floors = [
 	{
 		id: 'Floor-1',
 		position: { x: -600, y: 240 },
@@ -90,7 +84,10 @@ const initialNodes = [
 		type: 'Floor',
         draggable: true,
 	},
+]
 
+const rooms = [
+	
 	{
 		id: 'room-1',
 		position: { x: -600, y: 400 },
@@ -119,6 +116,19 @@ const initialNodes = [
 		type: 'Room',
         draggable: true,
 	},
+]
+
+const allNodes = [
+	{
+		id: 'master-1',
+		position: { x: 0, y: 0 },
+		data: { label: 'UFJF Central' },
+		type: 'Master',
+        draggable: true,
+	},
+	...Buildings,
+	...floors,
+	...rooms,
 ];
 
 const initialEdges = [
@@ -140,6 +150,7 @@ const initialEdges = [
 	{ id: 'e1-2', source: 'Floor-1', target: 'room-4' },
 ];
 
+
 const NODE_TYPES = {
 	Master: Master,
 	Building: Building,
@@ -150,18 +161,21 @@ const panOnDrag = [1, 2];
 
 export default function App() {
 	
-    const [nodes, setNodes] = useState(initialNodes);
+    const [nodes, setNodes] = useState(allNodes);
 	const [edges, setEdges] = useState(initialEdges);
-
 
 	const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
 	const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
 
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
+
+	useEffect(() => {
+		
+	}, [])
+
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
-			
 			<ReactFlow
 				nodeTypes={NODE_TYPES}
 				nodes={nodes}
