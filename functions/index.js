@@ -10,7 +10,9 @@ const { deleteDocuments } = require("./utils/deleteDocuments");
 const { updateDocument } = require("./utils/updateDocument");
 
 
-exports.resetRooms = onRequest(async (request, response) => {
+exports.resetRooms = onRequest({
+    cors: ['*']
+}, async (request, response) => {
     try {
         const data = await readDocuments('rooms')
         await deleteDocuments('rooms', data.map(doc => doc.id))
@@ -20,7 +22,9 @@ exports.resetRooms = onRequest(async (request, response) => {
     }
 });
 
-exports.updateRoom = onRequest(async (request, response) => {
+exports.updateRoom = onRequest({
+    cors: ['*']
+}, async (request, response) => {
     try {
 	    const {id: roomId} = request.query;
         const data = request.body
