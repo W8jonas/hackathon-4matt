@@ -23,8 +23,10 @@ export function Room(props) {
         <div className={classStyle}>
             <Handle type="target" position={Position.Left} />
             Sala: {props.data.label} <br/>
-            Temperatura: {props.data.temp} <br/>
             Status: {props.data.status} <br/>
+            Temperatura: {props.data.temperature.toFixed(2)} <br/>
+            Resfriamento: {props.data.cooling_system ? 'Ligado' : 'Desligado'} <br/>
+            Aquecimento: {props.data.heating_system ? 'Ligado' : 'Desligado'} <br/>
         </div>
     )
 }
