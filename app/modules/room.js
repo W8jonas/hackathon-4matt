@@ -43,24 +43,31 @@ class Room {
       this.heating_system = true
       this.cooling_system = false
 
-      if(actual < minimum - tolerance)
+      if(actual < minimum - tolerance){
         this.status = OUT_CONTROL
-      else 
+        this.color = 'red'
+      }
+      else {
         this.status = INCREASE
+        this.colot = 'blue'
+      }
     }else if(actual > maximum) {
       this.heating_system = false
       this.cooling_system = true
 
-      if(actual > maximum + tolerance)
+      if(actual > maximum + tolerance){
         this.status = OUT_CONTROL
-      else 
+        this.color = 'red'
+      }else {
         this.status = DECREASE
-
+        this.colot = 'orange'
+      }
     }else{
       this.heating_system = false
       this.cooling_system = false
 
       this.status = UNDER_CONTROL
+      this.color = 'green'
     }
 
     if(this.fail_state) {
@@ -122,6 +129,17 @@ class Room {
     return this[key]
   }
 
+  getCriticity() {
+    const maximum = this.maximum_temperature
+    const minimum = this.minimum_temperature
+    const actual = this.temperature
+    const tolerance = this.tolerance
+
+    if(actual > maximum + tolerance) this.criticity = actual - maximum + tolerance
+    else if(actual < minimum - tolerance) this.criticity = Math.abs(actual - (minimum - tolerance))
+    else this.criticity = 0
+  }
+
   updateOnDatabase(){
     const url = 'https://us-central1-hackathon-4matt.cloudfunctions.net/updateRoom?id='+this.id
 
@@ -132,6 +150,8 @@ class Room {
       temperature: this.temperature,
       cooling: this.cooling_system,
       heating: this.heating_system,
+      color: this.color,
+      criticity: this.getCriticity()
     })
   }
 
