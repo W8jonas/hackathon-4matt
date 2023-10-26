@@ -45,7 +45,8 @@ class Controller {
     const failureIds = [];
 
     this.rooms.forEach(room => {
-      failureIds.push(room.getKey('id'))
+      if(room.verifyFailures())
+        failureIds.push(room.getKey('id'))
     })
 
     return failureIds
@@ -55,6 +56,7 @@ class Controller {
     for(let i = 0; i < this.rooms.length; i++){
       if(this.rooms[i].getKey('id') == id){
         this.rooms[i].fixOperation()
+        this.rooms[i].turnOff()
         break
       }
     }
@@ -62,10 +64,21 @@ class Controller {
   }
 
   fixAllFailures(){
-    console.log('\n','----------->this.rooms: ', (this.rooms))
     this.rooms.forEach(room => {
-      if(room.verifyFailutes()) room.fixOperation()
+      if(room.verifyFailures()){
+        room.fixOperation()
+        room.turnOff()
+      }
     })
+  }
+
+  turnOnById(id) {
+    for(let i = 0; i < this.rooms.length; i++){
+      if(this.rooms[i].getKey('id') == id){
+        this.rooms[i].turnOn()
+        break
+      }
+    }
   }
 
 }

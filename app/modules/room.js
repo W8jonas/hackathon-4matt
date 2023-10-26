@@ -97,6 +97,7 @@ class Room {
   turnOn(){ this.system_operating = true; }
   turnOff(){ this.system_operating = false; }
   fixOperation() { this.fail_state = false; }
+  verifyFailures() { return this.fail_state; }
 
   toString() {
     const data = this.checkStatus();
@@ -115,9 +116,6 @@ class Room {
     return this[key]
   }
 
-  verifyFailutes() {
-    return this.fail_state;
-  }
 
 }
 
