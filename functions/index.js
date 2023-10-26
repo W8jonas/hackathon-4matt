@@ -1,19 +1,35 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
 
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+const admin = require("firebase-admin");
+admin.initializeApp();
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const { readDocuments } = require("./utils/readDocuments");
+const { deleteDocuments } = require("./utils/deleteDocuments");
+const { updateDocument } = require("./utils/updateDocument");
+
+
+exports.resetRooms = onRequest(async (request, response) => {
+    try {
+        const data = await readDocuments('rooms')
+        await deleteDocuments('rooms', data.map(doc => doc.id))
+        response.status(200).send("Operação concluida!");
+    } catch (error) {
+        response.status(500).send("error!", error.message);
+    }
+});
+
+exports.updateRoom = onRequest(async (request, response) => {
+    try {
+	    const {id: roomId} = request.query;
+        const data = request.body
+        
+        const resp = await updateDocument('rooms', roomId, data)
+
+        response.status(200).json(resp)
+    } catch (error) {
+        response.status(500).send("error!", error.message);
+    }
+});
+
