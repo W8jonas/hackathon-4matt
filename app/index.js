@@ -1,4 +1,4 @@
-const RoomController = require('./app/modules/roomController')
+const RoomController = require('./modules/roomController')
 
 const controller = new RoomController()
 
