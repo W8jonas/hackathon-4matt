@@ -25,7 +25,8 @@ exports.resetRooms = onRequest({
 });
 
 exports.updateRoom = onRequest({
-    cors: ['*']
+    cors: ['*'],
+    
 }, async (request, response) => {
     try {
 	    const {id: roomId} = request.query;

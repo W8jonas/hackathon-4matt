@@ -20,6 +20,7 @@ import { Room } from './components/Room';
 import { Data } from './Controllers/Data';
 import { getLayoutedElements } from './utils/treeLayout';
 import { setRelationshipDB } from './database';
+import { Header } from './components/Header';
 
 
 
@@ -109,28 +110,29 @@ export default function App() {
 
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
-			<ReactFlow
-				nodeTypes={NODE_TYPES}
-				nodes={nodes}
-				onNodesChange={onNodesChange}
-				edges={edges}
-				onEdgesChange={onEdgesChange}
-				onConnect={onConnect}
+			<Header onLayoutClick={onLayout} />
 
-				panOnScroll
-				selectionOnDrag={true}
-				panOnDrag={[1, 2]}
-				selectionMode={SelectionMode.Partial}
-				selectNodesOnDrag={true}
-				fitView
-				nodesFocusable={true}
-			>
-				<Background />
-				<Controls />
-				<Panel position="top-right">
-					<button onClick={onLayout}>layout</button>
-				</Panel>
-			</ReactFlow>
+			<div style={{ height: 'calc(100vh - 69px)', width: '100vw', position: 'relative' }}>
+				<ReactFlow
+					nodeTypes={NODE_TYPES}
+					nodes={nodes}
+					onNodesChange={onNodesChange}
+					edges={edges}
+					onEdgesChange={onEdgesChange}
+					onConnect={onConnect}
+
+					panOnScroll
+					selectionOnDrag={true}
+					panOnDrag={[1, 2]}
+					selectionMode={SelectionMode.Partial}
+					selectNodesOnDrag={true}
+					fitView
+					nodesFocusable={true}
+				>
+					<Background />
+					<Controls />
+				</ReactFlow>
+			</div>
 		</div>
 	);
 }
