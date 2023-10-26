@@ -138,6 +138,8 @@ class Room {
     if(actual > maximum + tolerance) this.criticity = actual - maximum + tolerance
     else if(actual < minimum - tolerance) this.criticity = Math.abs(actual - (minimum - tolerance))
     else this.criticity = 0
+
+    return this.criticity
   }
 
   updateOnDatabase(){
