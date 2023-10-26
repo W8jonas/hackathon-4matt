@@ -49,7 +49,7 @@ class Room {
       }
       else {
         this.status = INCREASE
-        this.colot = 'blue'
+        this.color = 'blue'
       }
     }else if(actual > maximum) {
       this.heating_system = false
@@ -60,7 +60,7 @@ class Room {
         this.color = 'red'
       }else {
         this.status = DECREASE
-        this.colot = 'orange'
+        this.color = 'orange'
       }
     }else{
       this.heating_system = false
