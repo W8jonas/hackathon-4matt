@@ -55,6 +55,5 @@ app.get('/fix', (req, res) => {
 })
 
 setInterval(printRooms, 2000)
-setInterval(fixFailures, 10000)
 
 app.listen(3000)

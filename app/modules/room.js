@@ -80,12 +80,13 @@ class Room {
     else if(this.heating_system) this.temperature = this.temperature + this.heating_system;
     else if(this.system_operating) this.temperature = this.temperature + (this.increase_rate/2);
     else this.temperature = this.temperature - (this.decrease_rate/2);
+    this.updateOnDatabase()
+
   }
 
   checkStatus() {
     this.nextStep()
     this.updateStatus()
-    this.updateOnDatabase()
 
     return {
       id: this.id,
@@ -98,10 +99,10 @@ class Room {
     }
   }
 
-  toggleOperation() { this.system_operating = !this.system_operating; }
-  turnOn(){ this.system_operating = true; }
-  turnOff(){ this.system_operating = false; }
-  fixOperation() { this.fail_state = false; }
+  toggleOperation() { this.system_operating = !this.system_operating; this.updateOnDatabase(); }
+  turnOn(){ this.system_operating = true; this.updateOnDatabase(); }
+  turnOff(){ this.system_operating = false; this.updateOnDatabase(); }
+  fixOperation() { this.fail_state = false; this.updateOnDatabase(); }
   verifyFailures() { return this.fail_state; }
 
   toString() {
