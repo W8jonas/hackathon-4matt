@@ -1,25 +1,16 @@
-const INCREASE = 'need to increase temperature'
-const DECREASE = 'need to decrease temperature'
-const UNDER_CONTROL = 'temperature under control'
-const OUT_CONTROL = 'temperature OUT OF CONTROL!!!!!!'
-
-const uuid = require('uuid')
+const INCREASE =      'need to increase temperature    '
+const DECREASE =      'need to decrease temperature    '
+const UNDER_CONTROL = 'temperature under control       '
+const OUT_CONTROL =   'temperature OUT OF CONTROL!!!!!!'
 
 class Room {
-  constructor(number = 1, maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10, name, location){
-
-    if(!name) name = 'Room '+number;
-
-    this.name = name;
-    this.location = location;
-
-    this.uuid = uuid.v4()
+  constructor(maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10, location){
+    this.id = location
 
     this.maximum_temperature = maximum_temperature
     this.minimum_temperature = minimum_temperature
     this.temperature = temperature
 
-    this.number = number
     this.status = 'temperature under control'
     this.cooling_system = false
     this.system_operating = false
@@ -92,7 +83,7 @@ class Room {
     this.updateStatus()
 
     return {
-      uuid: this.uuid,
+      id: this.id,
       status: this.status,
       fail_state: this.fail_state,
       system_operating: this.system_operating,
@@ -109,14 +100,18 @@ class Room {
   toString() {
     const data = this.checkStatus();
 
-    const failed = this.fail_state ? 'with error' : 'normally'
-    const room = `${this.name} - ${this.uuid.split('-')[0]} : ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
+    const failed = this.fail_state ? 'with error' : 'normally  '
+    const room = `${this.id} : ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
     const status = `Temperature: ${this.temperature.toFixed(1)}, ${this.status};`
     const cooling = `cooling: ${this.cooling_system ? 'on' : 'off'}`
     const heating = `heating: ${this.heating_system ? 'on' : 'off'}`
 
 
     return`${room} -> ${status} ${heating} ${cooling}`;
+  }
+
+  getKey(key) {
+    return this[key]
   }
 
   verifyFailutes() {

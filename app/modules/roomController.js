@@ -6,7 +6,7 @@ class Controller {
   }  
 
   includeRoom(maximum_temperature, minimum_temperature, temperature, fail_rate, name){
-    const room = new Room(this.rooms.length, maximum_temperature, minimum_temperature, temperature, fail_rate, name)
+    const room = new Room(maximum_temperature, minimum_temperature, temperature, fail_rate, name)
 
     room.turnOn();
 
@@ -34,6 +34,11 @@ class Controller {
   getRoomState(index){
     if(this.counter <= this.rooms.length) return null;
     return this.rooms[index-1].checkStatus()
+  }
+
+  findById(id) {
+    const room = this.rooms.find(room => room.id === room.get('id'));
+    return room;
   }
 
 }
