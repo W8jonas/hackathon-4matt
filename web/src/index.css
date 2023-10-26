@@ -38,7 +38,6 @@ code {
 }
 .floor {
   background-color: #e9f1eb;
-  
 }
 .room {
   background-color: #e8f5ff;
@@ -46,14 +45,13 @@ code {
   height: auto;
 }
 
-.priority_0 {
+.roomNode.room.red {
   background-color: #fd9992;
 }
-
-.priority_1 {
+.roomNode.room.orange {
   background-color: #fc9768;
 }
-
-.priority_2 {
-  background-color: #ffe398;
+.roomNode.room.blue {
+  background-color: #cceaff;
 }
+
