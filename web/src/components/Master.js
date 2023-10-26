@@ -6,7 +6,8 @@ export function Master(props) {
     return (
         <div className="baseNode master">
             <Handle type="source" position={Position.Bottom} />
-            {props.data.label}
+            <p>Tipo: Master</p>
+            <p>Nome: {props.data.label}</p>
         </div>
     )
 }
