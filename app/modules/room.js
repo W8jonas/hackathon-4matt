@@ -1,16 +1,18 @@
-const INCREASE = 'need to increase temperature'
-const DECREASE = 'need to decrease temperature'
-const UNDER_CONTROL = 'temperature under control'
-const OUT_CONTROL = 'temperature OUT OF CONTROL!!!!!!'
+const INCREASE =      'need to increase temperature    '
+const DECREASE =      'need to decrease temperature    '
+const UNDER_CONTROL = 'temperature under control       '
+const OUT_CONTROL =   'temperature OUT OF CONTROL!!!!!!'
+
+const axios = require('axios')
 
 class Room {
-  constructor(number = 1, maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10){
+  constructor(maximum_temperature = 25, minimum_temperature = 20, temperature = (maximum_temperature + minimum_temperature) / 2, fail_rate = 10, location){
+    this.id = location
 
     this.maximum_temperature = maximum_temperature
     this.minimum_temperature = minimum_temperature
     this.temperature = temperature
 
-    this.number = number
     this.status = 'temperature under control'
     this.cooling_system = false
     this.system_operating = false
@@ -23,7 +25,8 @@ class Room {
     this.fail_state = false
 
     this.tolerance = (maximum_temperature + minimum_temperature) / 10
-    console.log('\n','----------->this.tolerance: ', (this.tolerance))
+
+    this.updateOnDatabase();
   }
 
   updateStatus(){
@@ -77,6 +80,8 @@ class Room {
     else if(this.heating_system) this.temperature = this.temperature + this.heating_system;
     else if(this.system_operating) this.temperature = this.temperature + (this.increase_rate/2);
     else this.temperature = this.temperature - (this.decrease_rate/2);
+    this.updateOnDatabase()
+
   }
 
   checkStatus() {
@@ -84,6 +89,7 @@ class Room {
     this.updateStatus()
 
     return {
+      id: this.id,
       status: this.status,
       fail_state: this.fail_state,
       system_operating: this.system_operating,
@@ -93,15 +99,17 @@ class Room {
     }
   }
 
-  toggleOperation() { this.system_operating = !this.system_operating; }
-  turnOn(){ this.system_operating = true; }
-  turnOff(){ this.system_operating = false; }
+  toggleOperation() { this.system_operating = !this.system_operating; this.updateOnDatabase(); }
+  turnOn(){ this.system_operating = true; this.updateOnDatabase(); }
+  turnOff(){ this.system_operating = false; this.updateOnDatabase(); }
+  fixOperation() { this.fail_state = false; this.updateOnDatabase(); }
+  verifyFailures() { return this.fail_state; }
 
   toString() {
     const data = this.checkStatus();
 
-    const failed = this.fail_state ? 'with error' : 'normally'
-    const room = `Room ${this.number} ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
+    const failed = this.fail_state ? 'with error' : 'normally  '
+    const room = `${this.id} : ${this.system_operating ? 'operating ' : 'non-operating '}${failed}`
     const status = `Temperature: ${this.temperature.toFixed(1)}, ${this.status};`
     const cooling = `cooling: ${this.cooling_system ? 'on' : 'off'}`
     const heating = `heating: ${this.heating_system ? 'on' : 'off'}`
@@ -110,8 +118,21 @@ class Room {
     return`${room} -> ${status} ${heating} ${cooling}`;
   }
 
-  verifyFailutes() {
-    return this.fail_state;
+  getKey(key) {
+    return this[key]
+  }
+
+  updateOnDatabase(){
+    const url = 'https://us-central1-hackathon-4matt.cloudfunctions.net/updateRoom?id='+this.id
+
+    axios.post(url, {
+      status: this.status,
+      fail_state: this.fail_state,
+      system_operating: this.system_operating,
+      temperature: this.temperature,
+      cooling: this.cooling_system,
+      heating: this.heating_system,
+    })
   }
 
 }
