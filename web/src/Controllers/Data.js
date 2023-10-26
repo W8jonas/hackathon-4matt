@@ -6,13 +6,14 @@ function addRenderOptions(nodeDoc, type) {
 
     const node = { ...nodeDoc.data(), id: nodeDoc.id }
 
-    if (type === 'room') {
-        node.data.label = node.id.split(':')[3]
+    if (type === 'Room') {
+        node.label = node.id.split(':')[3]
+        node.position = {x: 0, y: 0}
     }
 
     return {
         id: node.id,
-        position: {x: 0, y: 0, ...node.position},
+        position: {x: 0, y: 0, ...node?.position},
 		data: { ...node, ...node?.data},
 		type: type || node.type,
         draggable: true,
