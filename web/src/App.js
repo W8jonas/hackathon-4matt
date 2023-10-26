@@ -9,6 +9,8 @@ import ReactFlow, {
 	addEdge,
 	MiniMap,
 	SelectionMode,
+	useReactFlow,
+	Panel
 } from 'reactflow';
 
 import { Master } from './components/Master';
@@ -16,6 +18,7 @@ import { Building } from './components/Building';
 import { Floor } from './components/Floor';
 import { Room } from './components/Room';
 import { Data } from './Controllers/Data';
+import { getLayoutedElements } from './utils/treeLayout';
 
 
 
@@ -30,16 +33,17 @@ const NODE_TYPES = {
 function mergeData(oldData, newData) {
 	const mergeSet = {}
 
-	oldData.forEach(data => mergeSet[data.id] = {...data})
-	newData.forEach(data => mergeSet[data.id] = {...data})
+	oldData.forEach(data => mergeSet[data.id] = { ...data })
+	newData.forEach(data => mergeSet[data.id] = { ...data })
 
 	return Object.values(mergeSet)
 }
 
 
 export default function App() {
-	
-    const [nodes, setNodes] = useState([]);
+	const { fitView } = useReactFlow();
+
+	const [nodes, setNodes] = useState([]);
 	const [edges, setEdges] = useState([]);
 
 	const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
@@ -47,6 +51,21 @@ export default function App() {
 
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
+	const onLayout = useCallback(
+		(direction) => {
+			const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, {
+				direction,
+			});
+
+			setNodes([...layoutedNodes]);
+			setEdges([...layoutedEdges]);
+
+			window.requestAnimationFrame(() => {
+				fitView();
+			});
+		},
+		[nodes, edges]
+	);
 
 	useEffect(() => {
 		function onUpdate(ICs) {
@@ -72,7 +91,6 @@ export default function App() {
 		)
 	}, [])
 
-
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
 			<ReactFlow
@@ -82,18 +100,21 @@ export default function App() {
 				edges={edges}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
-				
+
 				panOnScroll
 				selectionOnDrag={true}
 				panOnDrag={[1, 2]}
 				selectionMode={SelectionMode.Partial}
 				selectNodesOnDrag={true}
-				
+				fitView
 				nodesFocusable={true}
 			>
 				<Background />
 				<Controls />
 				<MiniMap />
+				<Panel position="top-right">
+					<button onClick={onLayout}>layout</button>
+				</Panel>
 			</ReactFlow>
 		</div>
 	);
