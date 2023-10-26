@@ -1,3 +1,4 @@
+const admin = require("firebase-admin");
 
 async function deleteDocuments(collectionName, docsIds) {
 	const promises = docsIds.map(

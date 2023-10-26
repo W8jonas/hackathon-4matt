@@ -16,9 +16,11 @@ exports.resetRooms = onRequest({
     try {
         const data = await readDocuments('rooms')
         await deleteDocuments('rooms', data.map(doc => doc.id))
-        response.status(200).send("Operação concluida!");
+
+        response.status(200).json("Operação concluida!");
     } catch (error) {
-        response.status(500).send("error!", error.message);
+        console.log('error > ', error)
+        response.status(500).json("error!", error?.message);
     }
 });
 
@@ -33,7 +35,8 @@ exports.updateRoom = onRequest({
 
         response.status(200).json(resp)
     } catch (error) {
-        response.status(500).send("error!", error.message);
+        console.log('error > ', error)
+        response.status(500).json("error!", error?.message);
     }
 });
 
