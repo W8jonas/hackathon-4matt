@@ -50,7 +50,7 @@ export function Data() {
     
     async function getRelationships() {
         const querySnapshot = await getDocs(collection(firestoreDatabase, "relationship"));
-        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id, type: 'smoothstep', }))
         return data
     }
 
