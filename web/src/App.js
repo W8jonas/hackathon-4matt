@@ -18,7 +18,6 @@ import { Floor } from './components/Floor';
 import { Room } from './components/Room';
 import { Data } from './Controllers/Data';
 import { getLayoutedElements } from './utils/treeLayout';
-import { setRelationshipDB } from './database';
 import { Header } from './components/Header';
 import { Backdrop, CircularProgress } from '@mui/material';
 
@@ -81,6 +80,8 @@ export default function App() {
 	const [nodes, setNodes] = useState([]);
 	const [edges, setEdges] = useState([]);
 	const [loading, setLoading] = useState(true)
+	const [serviceNowActive, setServiceNowActive] = useState(false)
+	const [webhookSiteActive, setWebhookSiteActive] = useState(false)
 
 	const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
 	const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
@@ -115,28 +116,6 @@ export default function App() {
 	useEffect(() => {
 		function onUpdate(services) {
 			setNodes(old => mergeData(old, services))
-			
-			services.forEach(service => {
-				if (service.data.color === 'red' || service.data.color === 'orange') {
-					console.log('Warning', service)
-
-					// fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
-					// 	method: 'POST',
-					// 	mode: 'no-cors',
-					// 	body: JSON.stringify({
-					// 		...service.data,
-					// 		rawLocation: service.data.id.replaceAll(':', ' → '),
-					// 		deepFullLocation: getDeepLocation(service.data.id),
-					// 		timestamp: service.data.updatedAt.seconds,
-					// 		timestampString: new Date(service.data.updatedAt.seconds).toISOString(),
-					// 		color: undefined,
-					// 		position: undefined,
-					// 		updatedAt: undefined,
-					// 		status: service.data.status.trim(),
-					// 	})
-					// })
-				}
-			})
 		}
 
 		const unsubscribe = Data().getServices(onUpdate)
@@ -157,10 +136,65 @@ export default function App() {
 		)
 	}, [])
 
+	useEffect(() => {
+		if (nodes.length > 0) {
+
+			nodes.forEach(service => {
+				if (service.data.color === 'red' || service.data.color === 'orange') {
+
+					const deepFullLocation = getDeepLocation(service.data.id)
+
+					const bodyData = {
+						...service.data,
+						rawLocation: service.data.id.replaceAll(':', ' → '),
+						deepFullLocation: deepFullLocation,
+						timestamp: service.data.updatedAt.seconds,
+						timestampString: new Date(service.data.updatedAt.seconds).toISOString(),
+						color: undefined,
+						position: undefined,
+						updatedAt: undefined,
+						status: service.data.status.trim(),
+						description: `Incidente criado automático - Sala ${service.data.label} - Localizado no pavimento ${deepFullLocation.children.children.entityName} - do prédio ${deepFullLocation.children.entityName} - criticidade: ${service.data.criticity}`,
+					}
+
+					if (webhookSiteActive) {
+						fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
+							method: 'POST',
+							mode: 'no-cors',
+							body: JSON.stringify(bodyData)
+						})
+					}
+
+					if (serviceNowActive) {
+						fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
+							method: 'POST',
+							mode: 'no-cors',
+							body: {
+								caller_id: "4490693e1b42f1d034255311604bcb14",
+								short_description: "UFJF - Grupo 3 - (Jonas Henrique e Caio) - Incidente hackathon", 
+								description: `
+								incidente criado automático - [nome do processo] - hospedado em  [nome do host] - virtualizado por [nome do servidor] - criticidade: [criticidade]`, 
+								category: "software", 
+								work_notes: `Data de parada: ${bodyData.timestampString}`,
+								allEventData: bodyData
+							}
+						})
+					}
+				}
+			})
+		}
+
+	}, [nodes, serviceNowActive, webhookSiteActive])
 
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
-			<Header onLayoutClick={onLayout} />
+			<Header
+				onLayoutClick={onLayout}
+				serviceNowActive={serviceNowActive}
+				onActiveServiceNow={option => setServiceNowActive(option.target.checked)}
+				webhookSiteActive={webhookSiteActive}
+				onActiveWebhookSite={option => setWebhookSiteActive(option.target.checked)}
+			/>
 
 			<div style={{ height: 'calc(100vh - 69px)', width: '100vw', position: 'relative' }}>
 				<ReactFlow
