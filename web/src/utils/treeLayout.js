@@ -16,7 +16,7 @@ export function getLayoutedElements(nodes, edges, options) {
 		.parentId((node) => edges.find((edge) => edge.target === node.id)?.source);
 
 	const root = hierarchy(nodes);
-	const layout = g.nodeSize([width / 2.5, height * 1.7])(root);
+	const layout = g.nodeSize([width / 3.2, height * 1.5])(root);
 
 	return {
 		nodes: layout
