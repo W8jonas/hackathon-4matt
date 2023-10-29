@@ -10,7 +10,6 @@ import ReactFlow, {
 	MiniMap,
 	SelectionMode,
 	useReactFlow,
-	Panel
 } from 'reactflow';
 
 import { Master } from './components/Master';
@@ -21,6 +20,7 @@ import { Data } from './Controllers/Data';
 import { getLayoutedElements } from './utils/treeLayout';
 import { setRelationshipDB } from './database';
 import { Header } from './components/Header';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 
 
@@ -80,6 +80,7 @@ export default function App() {
 
 	const [nodes, setNodes] = useState([]);
 	const [edges, setEdges] = useState([]);
+	const [loading, setLoading] = useState(true)
 
 	const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
 	const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
@@ -114,6 +115,28 @@ export default function App() {
 	useEffect(() => {
 		function onUpdate(services) {
 			setNodes(old => mergeData(old, services))
+			
+			services.forEach(service => {
+				if (service.data.color === 'red' || service.data.color === 'orange') {
+					console.log('Warning', service)
+
+					// fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
+					// 	method: 'POST',
+					// 	mode: 'no-cors',
+					// 	body: JSON.stringify({
+					// 		...service.data,
+					// 		rawLocation: service.data.id.replaceAll(':', ' → '),
+					// 		deepFullLocation: getDeepLocation(service.data.id),
+					// 		timestamp: service.data.updatedAt.seconds,
+					// 		timestampString: new Date(service.data.updatedAt.seconds).toISOString(),
+					// 		color: undefined,
+					// 		position: undefined,
+					// 		updatedAt: undefined,
+					// 		status: service.data.status.trim(),
+					// 	})
+					// })
+				}
+			})
 		}
 
 		const unsubscribe = Data().getServices(onUpdate)
@@ -122,7 +145,15 @@ export default function App() {
 
 	useEffect(() => {
 		Data().getRelationships().then(
-			data => setEdges(data)
+			data => {
+				setEdges(data)
+				setTimeout(() => {
+					document.querySelector('#layout-button').click()
+				}, 2000);
+				setTimeout(() => {
+					setLoading(false)
+				}, 3000);
+			}
 		)
 	}, [])
 
@@ -150,8 +181,16 @@ export default function App() {
 				>
 					<Background />
 					<Controls />
+					<MiniMap />
 				</ReactFlow>
 			</div>
+
+			<Backdrop
+				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+				open={loading}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</div>
 	);
 }
