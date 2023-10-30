@@ -11,16 +11,20 @@ import ReactFlow, {
 	SelectionMode,
 	useReactFlow,
 } from 'reactflow';
+import { Backdrop, CircularProgress } from '@mui/material';
 
+// Componentes visuais
 import { Master } from './components/Master';
 import { Building } from './components/Building';
 import { Floor } from './components/Floor';
 import { Room } from './components/Room';
 import { Data } from './Controllers/Data';
-import { getLayoutedElements } from './utils/treeLayout';
 import { Header } from './components/Header';
-import { Backdrop, CircularProgress } from '@mui/material';
 
+// Utils
+import { getLayoutedElements } from './utils/treeLayout';
+import { getDeepLocation } from './utils/getDeepLocation';
+import { mergeData } from './utils/mergeData';
 
 
 const NODE_TYPES = {
@@ -30,49 +34,6 @@ const NODE_TYPES = {
 	Room: Room,
 }
 
-function getPosition(array, thisId) {
-	const dd = array.find(item => item.id === thisId)
-	return dd?.position ? {...dd.position } : {}
-}
-
-function mergeData(oldData, newData) {
-	const mergeSet = {}
-
-	oldData.forEach(data => mergeSet[data.id] = { ...data })
-	newData.forEach(data => {
-		
-		mergeSet[data.id] = { 
-			...data, 
-			position: {
-				x: getPosition(newData, data.id).x || getPosition(oldData, data.id).x || 0,
-				y: getPosition(newData, data.id).y || getPosition(oldData, data.id).y || 0,
-			}
-		}
-	})
-
-	return Object.values(mergeSet)
-}
-
-// setRelationshipDB()
-
-function getDeepLocation(rawLocation) {
-
-	function getLocation(actualLocation, _location) {
-		if (_location.includes(':')) {
-			return {
-				...actualLocation,
-				entityName: _location.split(':')[0],
-				children: getLocation({}, _location.substr(Array.from(_location).findIndex(_letter => _letter === ':') + 1))
-			}
-        }
-
-		return {
-			entityName: _location.split(':')[0],
-			children: null
-		}
-	}
-	return getLocation({}, rawLocation)
-}
 
 export default function App() {
 	const { fitView } = useReactFlow();
