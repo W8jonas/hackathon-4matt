@@ -135,9 +135,37 @@ class Room {
     const actual = this.temperature
     const tolerance = this.tolerance
 
-    if(actual > maximum + tolerance) this.criticity = actual - maximum + tolerance
-    else if(actual < minimum - tolerance) this.criticity = Math.abs(actual - (minimum - tolerance))
-    else this.criticity = 0
+    let difference = 0
+
+    if(actual > minimum && actual < maximum){
+      this.criticity = 5
+      return this.criticity
+    }
+     
+
+    if(actual < minimum)
+      difference = Math.abs(actual - minimum)
+    
+    else if(actual > maximum)
+      difference = actual - maximum
+
+    const timesExceeded = Math.floor(difference / tolerance)
+
+    if (timesExceeded >= 5) {
+        this.criticity = 0
+    } else if (timesExceeded === 4) {
+        this.criticity = 1
+    } else if (timesExceeded === 3) {
+        this.criticity = 2
+    } else if (timesExceeded === 2) {
+        this.criticity = 3
+    } else if (timesExceeded === 1) {
+        this.criticity = 4
+    } else if (timesExceeded === 0) {
+        this.criticity = 5
+    } else {
+        this.criticity = 0
+    }
 
     return this.criticity
   }
