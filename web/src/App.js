@@ -23,8 +23,8 @@ import { Header } from './components/Header';
 
 // Utils
 import { getLayoutedElements } from './utils/treeLayout';
-import { getDeepLocation } from './utils/getDeepLocation';
 import { mergeData } from './utils/mergeData';
+import { dispatchWebhooks } from './utils/dispatchWebhooks';
 
 
 const NODE_TYPES = {
@@ -99,53 +99,10 @@ export default function App() {
 
 	useEffect(() => {
 		if (nodes.length > 0) {
-
-			nodes.forEach(service => {
-				if (service.data.color === 'red' || service.data.color === 'orange') {
-
-					const deepFullLocation = getDeepLocation(service.data.id)
-
-					const bodyData = {
-						...service.data,
-						rawLocation: service.data.id.replaceAll(':', ' → '),
-						deepFullLocation: deepFullLocation,
-						timestamp: service.data.updatedAt.seconds,
-						timestampString: new Date(service.data.updatedAt.seconds).toISOString(),
-						color: undefined,
-						position: undefined,
-						updatedAt: undefined,
-						status: service.data.status.trim(),
-						description: `Incidente criado automático - Sala ${service.data.label} - Localizado no pavimento ${deepFullLocation.children.children.entityName} - do prédio ${deepFullLocation.children.entityName} - criticidade: ${service.data.criticity}`,
-					}
-
-					if (webhookSiteActive) {
-						fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
-							method: 'POST',
-							mode: 'no-cors',
-							body: JSON.stringify(bodyData)
-						})
-					}
-
-					if (serviceNowActive) {
-						fetch('https://webhook.site/bf27f73c-fa0d-4541-aed8-f12c3361d0b6', {
-							method: 'POST',
-							mode: 'no-cors',
-							body: {
-								caller_id: "4490693e1b42f1d034255311604bcb14",
-								short_description: "UFJF - Grupo 3 - (Jonas Henrique e Caio) - Incidente hackathon", 
-								description: `
-								incidente criado automático - [nome do processo] - hospedado em  [nome do host] - virtualizado por [nome do servidor] - criticidade: [criticidade]`, 
-								category: "software", 
-								work_notes: `Data de parada: ${bodyData.timestampString}`,
-								allEventData: bodyData
-							}
-						})
-					}
-				}
-			})
+			dispatchWebhooks(nodes, webhookSiteActive, serviceNowActive)
 		}
+	}, [nodes, webhookSiteActive, serviceNowActive])
 
-	}, [nodes, serviceNowActive, webhookSiteActive])
 
 	return (
 		<div style={{ width: '100vw', height: '100vh' }}>
