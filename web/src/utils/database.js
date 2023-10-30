@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import { firestoreDatabase } from './services/firebase';
+import { firestoreDatabase } from '../services/firebase';
 
 const buildings = [
 	{

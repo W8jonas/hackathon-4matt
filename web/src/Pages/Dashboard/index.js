@@ -14,17 +14,17 @@ import ReactFlow, {
 import { Backdrop, CircularProgress } from '@mui/material';
 
 // Componentes visuais
-import { Master } from './components/Master';
-import { Building } from './components/Building';
-import { Floor } from './components/Floor';
-import { Room } from './components/Room';
-import { Data } from './Controllers/Data';
-import { Header } from './components/Header';
+import { Master } from '../../components/Master';
+import { Building } from '../../components/Building';
+import { Floor } from '../../components/Floor';
+import { Room } from '../../components/Room';
+import { Header } from '../../components/Header';
+import { Data } from '../../Controllers/Data';
 
 // Utils
-import { getLayoutedElements } from './utils/treeLayout';
-import { mergeData } from './utils/mergeData';
-import { dispatchWebhooks } from './utils/dispatchWebhooks';
+import { getLayoutedElements } from '../../utils/treeLayout';
+import { mergeData } from '../../utils/mergeData';
+import { dispatchWebhooks } from '../../utils/dispatchWebhooks';
 
 
 const NODE_TYPES = {
@@ -35,7 +35,7 @@ const NODE_TYPES = {
 }
 
 
-export default function App() {
+export function DashboardPage() {
 	const { fitView } = useReactFlow();
 
 	const [nodes, setNodes] = useState([]);
