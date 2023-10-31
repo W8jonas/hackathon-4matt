@@ -8,9 +8,13 @@
 const char* ssid = "REPUBLICADOQUEIROIZ";
 const char* password = "abcde10200";
 
+const int analogInPin = A0;
+int sensorValue = 0;
+int outputValue = 0;
+int criticity = 0;
 
 String serverName = "https://us-central1-hackathon-4matt.cloudfunctions.net/updateRoom";
-String serverPath = serverName + "?id=45";
+String serverPath = serverName + "?id=ufjf:ice:floor-1:101";
 
 void setup() {
   Serial.begin(115200);
@@ -31,6 +35,15 @@ void setup() {
 }
 
 void loop() {
+
+  sensorValue = analogRead(analogInPin);
+  outputValue = map(sensorValue, 0, 1023, 20, 50);
+  criticity = map(outputValue, 28, 45, 5, 0);
+
+  Serial.println();
+  Serial.println("sensorValue");
+  Serial.println(sensorValue);
+
   // wait for WiFi connection
   if ((WiFi.status() == WL_CONNECTED)) {
 
@@ -49,8 +62,23 @@ void loop() {
 
       // HTTPS header
       https.addHeader("Content-Type", "application/json");
+      String color = "green";
+      if (outputValue > 30) {
+        color = "orange";
+      }
+      if (outputValue > 40) {
+        color = "red";
+      }
+      String temperatureValue = String(outputValue);
 
-      int httpCode = https.POST("{\"status\":\"temperature under control\",\"fail_state\":\"false\",\"system_operating\":\"true\",\"temperature\":\"49.54\",\"cooling\":\"true\",\"heating\":\"false\"}");
+      Serial.println(color);
+      Serial.println(temperatureValue);
+
+      String jsonData = "{\"status\":\"temperature under control\",\"fail_state\":\"false\",\"color\":\"" + color + "\",\"criticity\":" + criticity + ",\"system_operating\":\"true\",\"temperature\":" + temperatureValue + ",\"cooling\":\"true\",\"heating\":\"false\"}";
+      
+      Serial.println(jsonData);
+
+      int httpCode = https.POST(jsonData);
 
       // httpCode will be negative on error
       if (httpCode > 0) {
@@ -70,7 +98,10 @@ void loop() {
       Serial.printf("[HTTPS] Unable to connect\n");
     }
   }
+
   Serial.println();
-  Serial.println("Waiting 2min before the next round...");
-  delay(5000);
+  Serial.println("Proxima tentativa em 2 segundos.");
+  delay(2000);
 }
+
+
