@@ -4,13 +4,19 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
+import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 import Button from '@mui/material/Button';
 
 import logo from "../assets/Logo_da_UFJF_2.png"
 import './header.css';
-import { FormControlLabel, FormGroup, Switch } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const pages = ['Painel', 'Alunos'];
+const pages = [
+    {path: '/', name: 'Home'},
+    {path: '/alunos', name: 'Alunos'},
+    {path: '/dashboard', name: 'Painel'},
+];
+
 
 export function Header({ onLayoutClick, serviceNowActive, onActiveServiceNow, webhookSiteActive, onActiveWebhookSite }) {
 
@@ -22,13 +28,15 @@ export function Header({ onLayoutClick, serviceNowActive, onActiveServiceNow, we
 
                     <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={() => { }}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                            <Link to={page.path}>
+                                <Button
+                                    key={page.name}
+                                    onClick={() => { }}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page.name}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
 
