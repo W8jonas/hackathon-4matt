@@ -37,8 +37,8 @@ void setup() {
 void loop() {
 
   sensorValue = analogRead(analogInPin);
-  outputValue = map(sensorValue, 0, 1023, 20, 50);
-  criticity = map(outputValue, 28, 45, 5, 0);
+  outputValue = map(sensorValue, 0, 1023, 20, 60);
+  criticity = map(outputValue, 28, 56, 5, 0);
 
   Serial.println();
   Serial.println("sensorValue");
