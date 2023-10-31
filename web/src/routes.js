@@ -10,12 +10,12 @@ import { HomePage } from "./Pages/Home";
 import { StudentsPage } from "./Pages/Students";
 
 const router = createBrowserRouter([
+    // {
+    //     path: "/",
+    //     element: <HomePage />,
+    // },
     {
         path: "/",
-        element: <HomePage />,
-    },
-    {
-        path: "/alunos",
         element: <StudentsPage />,
     },
     {

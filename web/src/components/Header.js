@@ -12,8 +12,8 @@ import './header.css';
 import { Link } from 'react-router-dom';
 
 const pages = [
-    {path: '/', name: 'Home'},
-    {path: '/alunos', name: 'Alunos'},
+    // {path: '/', name: 'Home'},
+    {path: '/', name: 'Alunos'},
     {path: '/dashboard', name: 'Painel'},
 ];
 
