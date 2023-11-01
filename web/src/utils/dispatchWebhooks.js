@@ -34,8 +34,7 @@ export function dispatchWebhooks(nodes, webhookSiteActive, serviceNowActive) {
                     body: JSON.stringify({
                         caller_id: "4490693e1b42f1d034255311604bcb14",
                         short_description: "UFJF - Grupo 3 - (Caio Vieira e Jonas Henrique) - Incidente hackathon", 
-                        description: `
-                        incidente criado automático - [nome do processo] - hospedado em  [nome do host] - virtualizado por [nome do servidor] - criticidade: [criticidade]`, 
+                        description: bodyData.description, 
                         category: "software", 
                         work_notes: `Data de parada: ${bodyData.timestampString}`,
                         allEventData: bodyData
